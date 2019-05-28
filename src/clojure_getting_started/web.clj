@@ -4,12 +4,13 @@
             [compojure.route :as route]
             [clojure.java.io :as io]
             [ring.adapter.jetty :as jetty]
+            [hiccup.core :as html]
             [environ.core :refer [env]]))
 
 (defn splash []
   {:status 200
-   :headers {"Content-Type" "text/plain"}
-   :body "Hello from Ilayda"})
+   :headers {"Content-Type" "text/html"}
+   :body [:h1 "Hello from Ilayda"]})
 
 (defroutes app
   (GET "/" []
