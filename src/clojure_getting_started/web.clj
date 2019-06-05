@@ -5,7 +5,21 @@
             [clojure.java.io :as io]
             [ring.adapter.jetty :as jetty]
             [hiccup.core :as hc]
-            [environ.core :refer [env]]))
+            [environ.core :refer [env]]
+            [clojure.data.csv :as csv]))
+
+(def default-file-location "./data/wordlist.csv")
+
+(defn load-wordlist-file [path-with-extension]
+  (with-open [reader (io/reader path-with-extension)]
+        (doall
+        (csv/read-csv reader))))
+
+(defn dice-roll->word [dice-roll csv-collection]
+   (->> (filter (fn [i] (= (first i) dice-roll))
+                csv-collection)
+        first
+        second))
 
 (defn splash []
   {:status 200
