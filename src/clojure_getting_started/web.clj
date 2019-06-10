@@ -15,6 +15,15 @@
         (doall
         (csv/read-csv reader))))
 
+(defn generate-dice-roll []
+   (->> #(rand-int 6)
+        (repeatedly 5)
+        (map inc)
+        clojure.string/join))
+
+(defn generate-n-dice-rolls [n]
+  (repeatedly n generate-dice-roll))
+
 (defn dice-roll->word [dice-roll csv-collection]
    (->> (filter (fn [i] (= (first i) dice-roll))
                 csv-collection)
