@@ -6,6 +6,7 @@
             [clojure.string :as str]
             [ring.adapter.jetty :as jetty]
             [hiccup.core :as hc]
+            [jsonista.core :as j]
             [environ.core :refer [env]]
             [clojure.data.csv :as csv]))
 
@@ -44,9 +45,20 @@
      [:h1 "Your passphrase is: "]
      [:p (generate-passphrase 6 default-file-location)]])})
 
+(defn api []
+  {:status 200
+    :headers {"Content-Type" "application/json"}
+    :body (j/write-value-as-string {:message (generate-passphrase 6 default-file-location)})})
+
+
+
+
+
 (defroutes app
   (GET "/" []
        (splash))
+  (GET "/api" []
+        (api))
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 

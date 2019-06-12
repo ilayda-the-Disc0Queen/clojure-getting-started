@@ -8,7 +8,8 @@
                  [compojure "1.6.1"]
                  [ring/ring-jetty-adapter "1.7.1"]
                  [environ "1.1.0"]
-                 [hiccup "1.0.5"]]
+                 [hiccup "1.0.5"]
+                 [metosin/jsonista "0.2.3"]]
   :min-lein-version "2.7.2"
   :plugins [[lein-environ "1.1.0"]
             [lein-ring "0.12.5"]]
