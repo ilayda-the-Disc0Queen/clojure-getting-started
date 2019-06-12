@@ -3,6 +3,7 @@
             [compojure.handler :refer [site]]
             [compojure.route :as route]
             [clojure.java.io :as io]
+            [clojure.string :as str]
             [ring.adapter.jetty :as jetty]
             [hiccup.core :as hc]
             [environ.core :refer [env]]
@@ -19,7 +20,7 @@
    (->> #(rand-int 6)
         (repeatedly 5)
         (map inc)
-        clojure.string/join))
+         str/join))
 
 (defn generate-n-dice-rolls [n]
   (repeatedly n generate-dice-roll))
@@ -30,10 +31,18 @@
         first
         second))
 
+(defn generate-passphrase [n path-to-csv]
+   (->> (generate-n-dice-rolls n)
+        (map #(dice-roll->word % (load-wordlist-file path-to-csv)))
+        (str/join " ")))
+
+
 (defn splash []
   {:status 200
    :headers {"Content-Type" "text/html"}
-   :body (hc/html [:h1 "Hello from Ilayda"])})
+   :body (hc/html [:div
+     [:h1 "Your passphrase is: "]
+     [:p (generate-passphrase 6 default-file-location)]])})
 
 (defroutes app
   (GET "/" []
