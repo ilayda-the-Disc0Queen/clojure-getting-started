@@ -14,14 +14,14 @@
 
 (defn load-wordlist-file [path-with-extension]
   (with-open [reader (io/reader path-with-extension)]
-        (doall
-        (csv/read-csv reader))))
+    (doall
+      (csv/read-csv reader))))
 
 (defn generate-dice-roll []
    (->> #(rand-int 6)
         (repeatedly 5)
         (map inc)
-         str/join))
+        str/join))
 
 (defn generate-n-dice-rolls [n]
   (repeatedly n generate-dice-roll))
